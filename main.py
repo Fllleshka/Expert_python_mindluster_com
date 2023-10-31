@@ -1,5 +1,7 @@
 from Lesson_one.user import *
 
+from time import time
+
 class Class_for_lessons:
 
     def __init__(self):
@@ -20,7 +22,6 @@ class Class_for_lessons:
                 return len(self.coeffs)
             def __call__(self):
                 pass
-
         p1 = Polynomial(1,2,3) #  x² + 2x + 3
         p2 = Polynomial(3,4,3) # 3x² + 4x + 3
         print(p1+p2)
@@ -28,6 +29,43 @@ class Class_for_lessons:
         # Метакласс
         user_class = Derived()
         user_class.bar()
+
+        # Декораторы
+        class Decorators:
+
+            # Рукописный декоратор
+            class My_Decorator:
+                def __init__(self, function):
+                    self.function = function
+                def __call__(self, *args, **kwargs):
+                    self.function(*args, **kwargs)
+                    self.before = time()
+                    self.after = time()
+                    print(f"Start: {self.before}\t\tEnd: {self.after}\t\tDifference: {self.after - self.before}")
+
+            @My_Decorator
+            # Функция для выбора действия
+            def timer(self, func, x, y=10):
+                if func == "add":
+                    rv = self.add(x, y)
+                elif func == 'sub':
+                    rv = self.sub(x, y)
+                else:
+                    rv = 'Error'
+                return rv
+
+            def add(self, x, y=10):
+                return x + y
+
+            def sub(self, x, y=10):
+                return x - y
+
+        dec_class = Decorators()
+        print(f"add(3,7)\t\t{dec_class.timer('add', 3, 7)}")
+        print(f"add(20,)\t\t{dec_class.timer('add', 20, 0)}")
+        print(f"add('a','b')\t{dec_class.timer('add', 'a', 'b')}")
+        print(f"sub(3,7)\t\t{dec_class.timer('sub', 3, 7)}")
+        print(f"sub(20,)\t\t{dec_class.timer('sub', 20, 0)}")
 
 if __name__ == '__main__':
     my_class = Class_for_lessons()
