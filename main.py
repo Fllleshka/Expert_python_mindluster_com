@@ -32,23 +32,31 @@ class Class_for_lessons:
 
         # Декораторы
         # Рукописный декоратор
-        class My_Decorator:
-            def __init__(self, function):
-                self.function = function
-            def __call__(self, *args, **kwargs):
-                self.function(*args, **kwargs)
-                self.before = time()
-                self.after = time()
-                print(f"Start: {self.before}\t\tEnd: {self.after}\t\tDifference: {self.after - self.before}")
-        @My_Decorator
+
+        def Decorator_timer(func):
+            def f(x, y=10):
+                before = time()
+                rv = func(x, y)
+                after = time()
+                print(f"Start: {before}\t\tEnd: {after}\t\tDifference: {after - before}")
+                return rv
+            return f
+
+        @Decorator_timer
         def add(x, y = 10):
             return x + y
-        @My_Decorator
+        @Decorator_timer
         def sub(x, y = 10):
             return x - y
 
-        #dec_class = Decorators()
-        print(f"add(3,7)\t\t{add(3, 7)}")
+        @Decorator_timer
+        def fore(x, y = 10):
+            result = x
+            for elem in range(0, x*10):
+                result = result * y
+            return result
+
+        print(f"add(3,7)\t\t{fore(3, 7)}")
         print(f"add(20,)\t\t{add(20)}")
         print(f"add('a','b')\t{add('a', 'b')}")
         print(f"sub(3,7)\t\t{sub(3, 7)}")
