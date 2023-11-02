@@ -31,36 +31,45 @@ class Class_for_lessons:
         user_class.bar()
 
         # Декораторы
-        # Рукописный декоратор
-
+        # Рукописный декоратор времени работы функции
         def Decorator_timer(func):
-            def f(x, y=10):
+            def f(*args, **kwargs):
                 before = time()
-                rv = func(x, y)
+                rv = func(*args, **kwargs)
                 after = time()
                 print(f"Start: {before}\t\tEnd: {after}\t\tDifference: {after - before}")
                 return rv
             return f
+        # Рукописный декоратор количества раз выполняемой функции
+        def ntimes_decorator(n):
+            def inner(f):
+                def wrapper(*args, **kwargs):
+                    for _ in range(n):
+                        print('Running {.__name__}'.format(f))
+                        rv = f(*args, **kwargs)
+                    return rv
+                return wrapper
+            return inner
 
-        @Decorator_timer
+        @ntimes_decorator(2)
         def add(x, y = 10):
             return x + y
-        @Decorator_timer
+        @ntimes_decorator(3)
         def sub(x, y = 10):
             return x - y
-
         @Decorator_timer
         def fore(x, y = 10):
             result = x
             for elem in range(0, x*10):
                 result = result * y
             return result
-
         print(f"add(3,7)\t\t{fore(3, 7)}")
         print(f"add(20,)\t\t{add(20)}")
         print(f"add('a','b')\t{add('a', 'b')}")
         print(f"sub(3,7)\t\t{sub(3, 7)}")
         print(f"sub(20,)\t\t{sub(20, 0)}")
+
+        # Генераторы
 
 if __name__ == '__main__':
     my_class = Class_for_lessons()
