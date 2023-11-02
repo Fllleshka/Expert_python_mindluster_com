@@ -31,41 +31,28 @@ class Class_for_lessons:
         user_class.bar()
 
         # Декораторы
-        class Decorators:
+        # Рукописный декоратор
+        class My_Decorator:
+            def __init__(self, function):
+                self.function = function
+            def __call__(self, *args, **kwargs):
+                self.function(*args, **kwargs)
+                self.before = time()
+                self.after = time()
+                print(f"Start: {self.before}\t\tEnd: {self.after}\t\tDifference: {self.after - self.before}")
+        @My_Decorator
+        def add(x, y = 10):
+            return x + y
+        @My_Decorator
+        def sub(x, y = 10):
+            return x - y
 
-            # Рукописный декоратор
-            class My_Decorator:
-                def __init__(self, function):
-                    self.function = function
-                def __call__(self, *args, **kwargs):
-                    self.function(*args, **kwargs)
-                    self.before = time()
-                    self.after = time()
-                    print(f"Start: {self.before}\t\tEnd: {self.after}\t\tDifference: {self.after - self.before}")
-
-            @My_Decorator
-            # Функция для выбора действия
-            def timer(self, func, x, y=10):
-                if func == "add":
-                    rv = self.add(x, y)
-                elif func == 'sub':
-                    rv = self.sub(x, y)
-                else:
-                    rv = 'Error'
-                return rv
-
-            def add(self, x, y=10):
-                return x + y
-
-            def sub(self, x, y=10):
-                return x - y
-
-        dec_class = Decorators()
-        print(f"add(3,7)\t\t{dec_class.timer('add', 3, 7)}")
-        print(f"add(20,)\t\t{dec_class.timer('add', 20, 0)}")
-        print(f"add('a','b')\t{dec_class.timer('add', 'a', 'b')}")
-        print(f"sub(3,7)\t\t{dec_class.timer('sub', 3, 7)}")
-        print(f"sub(20,)\t\t{dec_class.timer('sub', 20, 0)}")
+        #dec_class = Decorators()
+        print(f"add(3,7)\t\t{add(3, 7)}")
+        print(f"add(20,)\t\t{add(20)}")
+        print(f"add('a','b')\t{add('a', 'b')}")
+        print(f"sub(3,7)\t\t{sub(3, 7)}")
+        print(f"sub(20,)\t\t{sub(20, 0)}")
 
 if __name__ == '__main__':
     my_class = Class_for_lessons()
