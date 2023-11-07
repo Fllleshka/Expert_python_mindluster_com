@@ -1,6 +1,9 @@
 from Lesson_one.user import *
 
 from time import time
+from time import sleep
+from sqlite3 import connect
+from contextlib import contextmanager
 
 class Class_for_lessons:
 
@@ -63,13 +66,87 @@ class Class_for_lessons:
             for elem in range(0, x*10):
                 result = result * y
             return result
-        print(f"add(3,7)\t\t{fore(3, 7)}")
+
         print(f"add(20,)\t\t{add(20)}")
         print(f"add('a','b')\t{add('a', 'b')}")
         print(f"sub(3,7)\t\t{sub(3, 7)}")
         print(f"sub(20,)\t\t{sub(20, 0)}")
+        print(f"add(3,7)\t\t{fore(3, 7)}")
 
         # Генераторы
+        def add1(x, y):
+            return x + y
+        class Adder:
+            def __call__(self, x, y):
+                return x + y
+
+        print(f"Adder1:\t{add1(10, 20)}\t{type(add1)}")
+        add2 = Adder()
+        print(f"Adder2:\t{add2(10, 20)}\t{type(add2)}")
+
+        # Функция каких либо вычислений
+        def compute():
+            rv = []
+            for i in range(10):
+                sleep(.5)
+                rv.append(i)
+            return rv
+        print(f"Compute:\t{compute()}")
+
+        # Класс каких либо вычислений
+        class Compute():
+            def __iter__(self):
+                self.last = 0
+                return self
+            def __next__(self):
+                rv = self.last
+                self.last += 1
+                if self.last > 10:
+                    raise StopIteration()
+                sleep(.5)
+                return rv
+        for val in Compute():
+            print(val)
+        def compute_gen():
+            for i in range(10):
+                sleep(.5)
+                yield i
+        for val in compute_gen():
+            print(val)
+
+        '''
+        # Контент-менеджер
+        class contextmanager:
+            def __init__(self, gen):
+                self.gen = gen
+            def __call__(self, *args, **kwargs):
+                self.args, self.kwargs = args, kwargs
+                return self
+            def __enter__(self):
+                self.gen_inst = self.gen(*self.args, **self.kwargs)
+                next(self.gen_inst)
+            def __exit__(self, *args):
+                next(self.gen_inst, None)
+        '''
+        @contextmanager
+        def tempteble(cur):
+            cur.execute('create table points(x int, y int)')
+            try:
+                yield
+            finally:
+                cur.execute('drop table points')
+
+        with connect('test.db') as conn:
+            cur = conn.cursor()
+            with tempteble(cur):
+                cur.execute('insert into points (x, y) values(1, 1)')
+                cur.execute('insert into points (x, y) values(1, 2)')
+                cur.execute('insert into points (x, y) values(2, 1)')
+                for row in cur.execute('select x, y from points'):
+                    print(row)
+                for row in cur.execute('select sum(x * y) from points'):
+                    print(row)
+
 
 if __name__ == '__main__':
     my_class = Class_for_lessons()
