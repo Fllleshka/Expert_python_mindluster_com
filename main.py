@@ -5,12 +5,15 @@ from time import sleep
 from sqlite3 import connect
 from contextlib import contextmanager
 
+# Класс для уроков
 class Class_for_lessons:
 
     def __init__(self):
-        self.first_lesson()
+        #self.first_lesson()
+        #self.second_lesson()
+        self.third_lesson()
 
-    # Первый урок
+    # Первый урок | What Does It Take To Be An Expert At Python
     def first_lesson(self):
 
         # Класс полином
@@ -146,6 +149,26 @@ class Class_for_lessons:
                     print(row)
                 for row in cur.execute('select sum(x * y) from points'):
                     print(row)
+
+    # Второй урок | Creating Awesome 3D Animations With Python In Blender
+    def second_lesson(self):
+        # Тут рассматривался Blender и применение библиотек python в построении кубов, кривых на плоскости
+        pass
+
+    # Третий урок | Top To Down Left To Right || James Powell
+    def third_lesson(self):
+        pass
+        '''
+        Python откладывет выполение функции на RunTime.
+        К примеру поиск "a.b" выясним так ли это только когда код будет запущен.
+        На этапе компиляции Python не будет выяснять что это ошибка.
+        
+        Принцип TOP->BOTTOM, LEFT->REGHT говорит что при перевода кода в байты python не анализирает код, а просто его выполняет.
+        '''
+
+    # Третий урок | Top To Down Left To Right || James Powell
+    def fourth_lesson(self):
+        pass
 
 
 if __name__ == '__main__':
