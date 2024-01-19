@@ -9,9 +9,11 @@ from contextlib import contextmanager
 class Class_for_lessons:
 
     def __init__(self):
+        pass
         #self.first_lesson()
         #self.second_lesson()
-        self.third_lesson()
+        #self.third_lesson()
+        #self.fourth_lesson()
 
     # Первый урок | What Does It Take To Be An Expert At Python
     def first_lesson(self):
@@ -166,7 +168,7 @@ class Class_for_lessons:
         Принцип TOP->BOTTOM, LEFT->REGHT говорит что при перевода кода в байты python не анализирает код, а просто его выполняет.
         '''
 
-    # Третий урок | Top To Down Left To Right || James Powell
+    # Четвёртный урок | Python Web Scraping Tools: A Survey
     def fourth_lesson(self):
         pass
 
